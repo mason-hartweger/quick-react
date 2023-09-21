@@ -1,5 +1,6 @@
 import Banner from './components/Banner';
-import CourseList from './components/CourseList';
+import CourseCardGrid from './components/CourseCardGrid';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const schedule = {
   "title": "CS Courses for 2018-2019",
@@ -33,9 +34,9 @@ const schedule = {
 
 const App = () => (
   
-  <div border='1px solid black'>
+  <div>
       <Banner title={schedule.title}/>
-      <CourseList courses={schedule.courses}/>
+      <CourseCardGrid courses={schedule.courses}/>
   </div>
 );
 
