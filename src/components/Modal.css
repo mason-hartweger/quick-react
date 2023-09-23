@@ -1,23 +1,25 @@
 .modal {
-  display: block;
-  visibility: hidden;
+  display: none;
 }
 
 .modal-show {
-  visibility:visible;
+  display:block !important;
   background-color: rgba(169, 169, 169, 0.8);
   transition: opacity 0.2s linear; 
 } 
 
 .modal-content  {
+  display:block;
   opacity: 0; 
 }
 
 .modal-show .modal-content  {
+  display:block;
   opacity: 1; 
   transition: 0.2s linear; 
 }
 
 .modal-header {
+  display:block;
   margin-left: auto;
 }

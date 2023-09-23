@@ -32,8 +32,10 @@ const TermSelectorPage = ({data}) => {
 
   return (
     <div>
-      <TermSelector terms={terms} selection={selection} setSelection={setSelection} />
-      <button className="btn btn-outline-dark" onClick={openModal}><i className="bi bi-cart4">CourseCart</i></button>
+      <div flexdirection='row'>
+        <TermSelector terms={terms} selection={selection} setSelection={setSelection} />
+        <button style={{float: 'right'}} className="btn btn-outline-dark" onClick={openModal}><i className="bi bi-cart4">CourseCart</i></button>
+      </div>
       <TermMenu selectedCourses={selectedCourses} toggleSelectedCourse={toggleSelectedCourse} selection={selection} data={reduced_data}/>
       <Modal open={open} close={closeModal}>
         <CourseCart selected={selectedCourses}/>
