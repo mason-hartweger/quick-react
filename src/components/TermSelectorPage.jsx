@@ -3,6 +3,7 @@ import CourseCardGrid from './CourseCardGrid';
 import CourseCart from './CourseCart'
 import Modal from './Modal';
 import TermSelector from './TermSelector';
+import {containsSameMeetingDays,containsSameTerm,containsOverlappingMeetingTimes} from '../utilities/conflict.js';
 
 const terms = {
   Fall: '',
@@ -10,8 +11,8 @@ const terms = {
   Spring: ''
 };
 
-const TermMenu = ({data, selectedCourses, toggleSelectedCourse, selection}) => (
-    <CourseCardGrid courses={data} selectedCourses={selectedCourses} toggleSelectedCourse={toggleSelectedCourse} selection={selection}/>
+const TermMenu = ({data, selectedCourses, toggleSelectedCourse, selection, unavailibleCourses}) => (
+    <CourseCardGrid courses={data} selectedCourses={selectedCourses} toggleSelectedCourse={toggleSelectedCourse} selection={selection} unavailibleCourses={unavailibleCourses}/>
 );
 
 const TermSelectorPage = ({data}) => {
@@ -25,6 +26,24 @@ const TermSelectorPage = ({data}) => {
     : [...selectedCourses, item]
   );
 
+  //console.log(selectedCourses);
+  let unavailibleCourses = [];
+  for (let i = 0; i < selectedCourses.length; i++) {
+    let c1 = selectedCourses[i];
+    for (let ii = 0; ii < reduced_data.length; ii++) {
+        let c2 = reduced_data[ii];
+        if (!(c1 === c2[1])) {
+          if (containsSameMeetingDays(c1.meets,c2[1].meets) &&
+          containsSameTerm(c1.term,c2[1].term) &&
+          containsOverlappingMeetingTimes(c1.meets,c2[1].meets)) {
+            unavailibleCourses.push(c2[1]);
+        }
+      }
+    }
+  }
+
+  //console.log(unavailibleCourses);
+
   const [open, setOpen] = useState(false);
 
   const openModal = () => setOpen(true);
@@ -36,7 +55,7 @@ const TermSelectorPage = ({data}) => {
         <TermSelector terms={terms} selection={selection} setSelection={setSelection} />
         <button style={{float: 'right'}} className="btn btn-outline-dark" onClick={openModal}><i className="bi bi-cart4">CourseCart</i></button>
       </div>
-      <TermMenu selectedCourses={selectedCourses} toggleSelectedCourse={toggleSelectedCourse} selection={selection} data={reduced_data}/>
+      <TermMenu selectedCourses={selectedCourses} toggleSelectedCourse={toggleSelectedCourse} selection={selection} data={reduced_data} unavailibleCourses={unavailibleCourses}/>
       <Modal open={open} close={closeModal}>
         <CourseCart selected={selectedCourses}/>
       </Modal>
