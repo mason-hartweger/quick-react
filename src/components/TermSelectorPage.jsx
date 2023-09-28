@@ -56,7 +56,7 @@ const TermSelectorPage = ({data}) => {
         <button style={{float: 'right'}} className="btn btn-outline-dark" onClick={openModal}><i className="bi bi-cart4">CourseCart</i></button>
       </div>
       <TermMenu selectedCourses={selectedCourses} toggleSelectedCourse={toggleSelectedCourse} selection={selection} data={reduced_data} unavailibleCourses={unavailibleCourses}/>
-      <Modal open={open} close={closeModal}>
+      <Modal open={open} close={closeModal} titleText={'CourseCart'} showX={true}>
         <CourseCart selected={selectedCourses}/>
       </Modal>
     </div>
