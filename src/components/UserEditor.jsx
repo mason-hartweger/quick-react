@@ -75,7 +75,6 @@ const InputField = ({name, text, state, change, makeUneditable}) => (
 );
 
 const ButtonBar = ({message, disabled, onCancel}) => {
-  const navigate = useNavigate();
   return (
     <div className="d-flex">
       <button type="button" className="btn btn-outline-dark me-2" onClick={() => onCancel()}>Cancel</button>
@@ -86,11 +85,14 @@ const ButtonBar = ({message, disabled, onCancel}) => {
 };
 
 const UserEditor = ({course,onCancel}) => {
-  const [update, result] = useDbUpdate(`/users/${course.id}`);
+  const courseId = course.term[0] + course.number;
+
+  const [update, result] = useDbUpdate(`/courses/${courseId}`);
   const [state, change] = useFormData(validateUserData, course);
+
   const submit = (evt) => {
     evt.preventDefault();
-    if (!state.errors) {
+    if (!state.errors && (course.meets != state.values.meets || course.title != state.values.title)) {
       update(state.values);
     }
   };

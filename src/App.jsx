@@ -9,7 +9,6 @@ import { useDbData } from './utilities/firebase';
 
 const Main = () => {
   const [data, isLoading, error] = useDbData('/');
-  console.log(data);
   if (error) return <h1>Error loading user data: {`${error}`}</h1>;
   if (isLoading) return <h1>Loading user data...</h1>;
   if (!data) return <h1>No user data found</h1>;
