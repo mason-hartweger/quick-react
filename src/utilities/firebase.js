@@ -2,18 +2,19 @@ import { useEffect, useState } from 'react';
 import { onValue, ref, update} from 'firebase/database';
 
 import { useCallback } from 'react';
-import { initializeApp } from "firebase/app";
 import { getDatabase } from 'firebase/database';
+import { initializeApp } from 'firebase/app';
+
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCqy8l97tEWjvW3V1B0f9bMsMLFk9D4sWk",
-  authDomain: "maxtactoe.firebaseapp.com",
-  databaseURL: "https://maxtactoe.firebaseio.com",
-  projectId: "maxtactoe",
-  storageBucket: "maxtactoe.appspot.com",
-  messagingSenderId: "672040841619",
-  appId: "1:672040841619:web:e488e188d5b93db7753866"
-};
+    apiKey: "AIzaSyCs5EdKdLMkVA7eR4sZtTTgSeBTM2Mr6js",
+    authDomain: "quick-react-mason-hartweger.firebaseapp.com",
+    projectId: "quick-react-mason-hartweger",
+    storageBucket: "quick-react-mason-hartweger.appspot.com",
+    messagingSenderId: "73050596324",
+    appId: "1:73050596324:web:0d1ccac73edf9db9ab5df1",
+    measurementId: "G-M34RPW0FYH"
+  };
 
 // Initialize Firebase
 const firebase = initializeApp(firebaseConfig);
@@ -30,7 +31,6 @@ export const useDbData = (path) => {
       setError(error);
     })
   ), [ path ]);
-
   return [ data, error ];
 };
 
