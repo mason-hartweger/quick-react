@@ -2,12 +2,65 @@ import { useDbUpdate } from '../utilities/firebase.js';
 import { useFormData } from '../utilities/useFormData.js';
 import { useNavigate } from "react-router-dom";
 
+const validateMeeting = (val) => {
+    if (val === '') {
+        return true;
+    } else {
+        let times = val.slice(-11,val.length);
+        let days = val.slice(0,-12);
+        if (parseInt(times[0]) != (0 || 1 || 2) || parseInt(times[6]) != (0 || 1 || 2) ||
+            parseInt(times[3]) >= 6 || parseInt(times[9]) >= 6 || times[2] != ':' ||
+            times[8] != ':' || times[5] != '-') {
+                return false;
+        } else if (parseInt(times[0]) > parseInt(times[6]) || 
+        (parseInt(times[0]) == parseInt(times[6]) && parseInt(times.slice(3,4)) > parseInt(times.slice(9,10)))) {
+            return false;
+        } else if (isNaN((times.slice(0,2)+times.slice(3,5)+times.slice(6,8)+times.slice(9,11)))) {
+            return false;
+        } else {
+            let daysArray = [];
+            var daysDict = {
+                "M":0,"Tu":1,"W":2,"Th":3,"F":4
+            };
+            for (let i = 0; i < days.length; i++) {
+                if (days[i] === 'M') {
+                    daysArray.push('M');
+                } else if (days.slice(i,i+2) === 'Tu') {
+                    i = i + 1;
+                    daysArray.push('Tu');
+                } else if (days[i] === 'W') {
+                    daysArray.push('W');
+                } else if (days.slice(i,i+2) === 'Th') {
+                    i = i + 1;
+                    daysArray.push('Th');
+                } else if (days[i] === 'F') {
+                    daysArray.push('F');
+                } else {
+                    return false;
+                }
+            }
+            for (let ii = 0; ii < daysArray.length; ii++) {
+                if (daysArray.indexOf(daysArray[ii]) != daysArray.lastIndexOf(daysArray[ii])) {
+                    return false;
+                }
+                if (daysDict[daysArray[ii]] > daysDict[daysArray[ii+1]]) {
+                    return false;
+                }
+            }
+            if (daysArray.length > 5 || daysArray.length == 0) {
+                return false;
+            }
+            return true;
+        }
+    }
+}
+
 const validateUserData = (key, val) => {
   switch (key) {
-    case 'quarter': case 'lastName':
+    case 'title':
       return /(^\w\w)/.test(val) ? '' : 'must be least two characters';
-    case 'number':
-      return /^\w+@\w+[.]\w+/.test(val) ? '' : 'must contain name@domain.top-level-domain';
+    case 'meets':
+      return validateMeeting(val) ? '' : 'must be empty string or have valid dates/times';
     default: return '';
   }
 };
