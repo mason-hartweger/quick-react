@@ -23,11 +23,15 @@ const queryClient = new QueryClient();
 
 const App = () => (
   <BrowserRouter>
+  <Routes>
+  <Route path="/" element={
     <QueryClientProvider client={queryClient}>
         <div className="container">
           <Main />
         </div>
     </QueryClientProvider>
+    }/>
+  </Routes>
   </BrowserRouter>
 );
 
