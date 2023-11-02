@@ -32,7 +32,7 @@ const CourseCard = ({course, selectedCourses, toggleSelectedCourse, unavailibleC
     }
 
     return (
-  <div className="card m-1 p-2" key='{course.title}' onClick={() => !unavailibleCourses.includes(course) ? toggleSelectedCourse(course): ""}>
+  <div className="card m-1 p-2" data-cy="course" key='{course.title}' onClick={() => !unavailibleCourses.includes(course) ? toggleSelectedCourse(course): ""}>
     <div className={`card-body ${selectedCourses.includes(course) ? 'selected' : ''}`}>
         {(isLoggedIn && isAdmin) ?
             (<button onClick={openModalForm} style={{float: 'right'}}>
